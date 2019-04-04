@@ -17,7 +17,6 @@ int main(void)
     unsigned char tmpA = 0x00; // Temporary variable to hold the value of A
     unsigned char tmpC = 0x00;
 	unsigned char tmpD = 0x00;
-	
 	unsigned char cntavail = 0x00;
 	
 	while(1)
