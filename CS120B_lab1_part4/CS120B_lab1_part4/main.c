@@ -22,12 +22,12 @@ int main(void)
 	
     while(1)
     {
-	    tmpA = PINA; //sets tmpA to bit position 0, 1, 2, 3
-	    tmpB = PINB;
-	    tmpC = PINC;
+		tmpA = PINA; //sets tmpA to bit position 0, 1, 2, 3
+		tmpB = PINB;
+		tmpC = PINC;
 		tmpT = PIND & 0xFE;
 	 
-	    if ((tmpA + tmpB + tmpC) > 0x8C) {
+		if ((tmpA + tmpB + tmpC) > 0x8C) {
 			PORTD = tmpT | 0x01;
 		}
 		
