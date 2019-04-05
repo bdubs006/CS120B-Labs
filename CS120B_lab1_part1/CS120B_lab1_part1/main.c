@@ -14,6 +14,7 @@ int main(void)
 	DDRB = 0xFF; PORTB = 0x00;
 	unsigned char tmpB = 0x00; // Temporary variable to hold the value of B
 	unsigned char tmpA = 0x00; // Temporary variable to hold the value of A
+	
 	while(1)
     {
 	// 1) Read input
