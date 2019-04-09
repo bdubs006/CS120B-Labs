@@ -10,7 +10,7 @@
 
 int main(void)
 {
-    DDRD = 0x00; PORTD = 0xFF;
+	DDRD = 0x00; PORTD = 0xFF;
 	DDRB = 0xFE; PORTB = 0x01;
 	unsigned short tmpD = 0x00;
 	unsigned short tmpB = 0x00;
@@ -32,6 +32,7 @@ int main(void)
 		}
 		PORTB = tmpB;
     }
+	
 	return 1;
 }
 
