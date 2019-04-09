@@ -1,9 +1,12 @@
-/*
- * CS120B_lab3_part5.c
- *
- * Created: 4/9/2019 12:25:42 PM
- * Author : Bon Won Koo
- */ 
+/*	Partner 1 Name & E-mail: Bon Won Koo bkoo006@ucr.edu
+ *	Partner 2 Name & E-mail: Vinh-Trung Trinh vtrin003@ucr.edu
+ *	Lab Section: 028
+ *	Assignment: Lab 3  Exercise 5
+ *	Exercise Description: [optional - include for your own benefit]
+ *	
+ *	I acknowledge all content contained herein, excluding template or example
+ *	code, is my own original work.
+ */
 
 #include <avr/io.h>
 
