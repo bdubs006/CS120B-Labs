@@ -19,7 +19,9 @@ int main(void)
     {
 		tmpD = PIND;
 		tmpB = PINB & 0x01;
+		
 		if (tmpB == 1) {
+			tmpD = tmpD << 1;
 			tmpD = tmpD + 1; 
 		}
 		if (tmpD >= 70) {
@@ -30,6 +32,6 @@ int main(void)
 		}
 		PORTB = tmpB;
     }
-	return 0;
+	return 1;
 }
 
