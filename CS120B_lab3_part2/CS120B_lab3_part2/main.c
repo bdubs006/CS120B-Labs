@@ -1,7 +1,7 @@
 /*	Partner 1 Name & E-mail: Bon Won Koo bkoo006@ucr.edu
  *	Partner 2 Name & E-mail: Vinh-Trung Trinh vtrin003@ucr.edu
  *	Lab Section: 028
- *	Assignment: Lab   Exercise 
+ *	Assignment: Lab 3 Exercise 2
  *	Exercise Description: [optional - include for your own benefit]
  *	
  *	I acknowledge all content contained herein, excluding template or example
@@ -9,7 +9,12 @@
  */
 
 #include <avr/io.h>
-
+unsigned char SetBit(unsigned char x, unsigned char k, unsigned char b) {
+	return (b ? x | (0x01 << k) : x & ~(0x01 << k));
+}
+unsigned char GetBit(unsigned char x, unsigned char k) {
+	return ((x & (0x01 << k)) != 0);
+}
 
 int main(void)
 {
@@ -75,6 +80,7 @@ int main(void)
 		sensorLEDS = 0x00; //reset variables
 		fuellvl = 0x00; //reset variables
     }
+	
 	return 1;
 }
 
