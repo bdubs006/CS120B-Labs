@@ -121,42 +121,42 @@ Disassembly of section .text:
 
 int main(void)
 {
-    DDRA = 0x00; PORTA = 0xFF; // Configure port A's 8 pins as inputs
+	DDRA = 0x00; PORTA = 0xFF; // Configure port A's 8 pins as inputs
   9e:	11 b8       	out	0x01, r1	; 1
   a0:	8f ef       	ldi	r24, 0xFF	; 255
   a2:	82 b9       	out	0x02, r24	; 2
 	DDRB = 0xFF; PORTB = 0x00;
   a4:	84 b9       	out	0x04, r24	; 4
   a6:	15 b8       	out	0x05, r1	; 5
-	    tmpA = PINA & 0x01;
-		tmpB = PINA & 0x02;
-	    // 2) Perform computation
-	    // if PA0 is 1, set PB1PB0 = 01, else = 10
-	    if (tmpA == 0x01 && tmpB == 0x00) { // True if PA0 is 1
-		    PORTB = 0x01;
+	tmpA = PINA & 0x01;
+	tmpB = PINA & 0x02;
+	// 2) Perform computation
+	// if PA0 is 1, set PB1PB0 = 01, else = 10
+		if (tmpA == 0x01 && tmpB == 0x00) { // True if PA0 is 1
+			PORTB = 0x01;
   a8:	21 e0       	ldi	r18, 0x01	; 1
-    unsigned char tmpB = 0x00; // Temporary variable to hold the value of B
-    unsigned char tmpA = 0x00; // Temporary variable to hold the value of A
-    while(1)
+	unsigned char tmpA = 0x00; // Temporary variable to hold the value of A
+	
+	while(1)
     {
-	    // 1) Read input
-	    tmpA = PINA & 0x01;
+	// 1) Read input
+	tmpA = PINA & 0x01;
   aa:	80 b1       	in	r24, 0x00	; 0
-		tmpB = PINA & 0x02;
+	tmpB = PINA & 0x02;
   ac:	90 b1       	in	r25, 0x00	; 0
-	    // 2) Perform computation
-	    // if PA0 is 1, set PB1PB0 = 01, else = 10
-	    if (tmpA == 0x01 && tmpB == 0x00) { // True if PA0 is 1
+	// 2) Perform computation
+	// if PA0 is 1, set PB1PB0 = 01, else = 10
+		if (tmpA == 0x01 && tmpB == 0x00) { // True if PA0 is 1
   ae:	80 ff       	sbrs	r24, 0
   b0:	04 c0       	rjmp	.+8      	; 0xba <main+0x1c>
   b2:	91 fd       	sbrc	r25, 1
   b4:	02 c0       	rjmp	.+4      	; 0xba <main+0x1c>
-		    PORTB = 0x01;
+			PORTB = 0x01;
   b6:	25 b9       	out	0x05, r18	; 5
   b8:	f8 cf       	rjmp	.-16     	; 0xaa <main+0xc>
-	    }
-	    else {
-		    PORTB = 0x00;
+		}
+		else {
+			PORTB = 0x00;
   ba:	15 b8       	out	0x05, r1	; 5
   bc:	f6 cf       	rjmp	.-20     	; 0xaa <main+0xc>
 
