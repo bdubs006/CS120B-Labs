@@ -1,7 +1,7 @@
 /*	Partner 1 Name & E-mail: Bon Won Koo bkoo006@ucr.edu
  *	Partner 2 Name & E-mail: Vinh-Trung Trinh vtrin003@ucr.edu
  *	Lab Section: 028
- *	Assignment: Lab 3  Exercise 4
+ *	Assignment: Lab 3  Exercise 1
  *	Exercise Description: [optional - include for your own benefit]
  *	
  *	I acknowledge all content contained herein, excluding template or example
