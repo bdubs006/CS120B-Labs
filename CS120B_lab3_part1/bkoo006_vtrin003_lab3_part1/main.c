@@ -25,7 +25,6 @@ int main(void)
 	unsigned char cntrB = 0x00;
 	unsigned char totAmt = 0x00;
 	
-	
 	/* Replace with your application code */
 	while (1)
 	{
