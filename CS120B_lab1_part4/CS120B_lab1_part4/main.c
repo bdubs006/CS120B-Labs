@@ -47,8 +47,7 @@ int main(void)
 			total = total << 2;
 			total = total | (tmpT | 0x01) | ((PIND & 0xFD) | 0x02);
 			PORTD = total;
-		}
-		
+		}	
 	
     }
 	return 0;
