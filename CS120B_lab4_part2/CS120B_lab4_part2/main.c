@@ -11,7 +11,7 @@
 
 #include <avr/io.h>
 
-enum Val_Changer {Val_Init, Val_Wait, Val_P0Press, Val_PCInc, Val_P1Press, Val_PCDec, Val_Reset} IncDec;
+enum Val_Changer {Val_Init, Val_Wait, Val_P0Press, Val_PCInc, Val_P1Press, Val_PCDec, Val_Reset, Reset_Button} IncDec;
 	
 void tick_LEDS()
 {
@@ -27,7 +27,7 @@ void tick_LEDS()
 				IncDec = Val_P1Press;
 			}
 			else if(((PINA & 0x01) == 0x01) && ((PINA & 0x02) == 0x02)){
-				IncDec = Val_Reset;
+				IncDec = Reset_Button;
 			}
 			else{
 				IncDec = Val_Wait;
@@ -50,7 +50,7 @@ void tick_LEDS()
 				IncDec = Val_P1Press;
 			}
 			else if(((PINA & 0x01) == 0x01) && ((PINA & 0x02) == 0x02)){
-				IncDec = Val_Reset;
+				IncDec = Reset_Button;
 			}
 			else{
 				IncDec = Val_Wait;
@@ -72,10 +72,18 @@ void tick_LEDS()
 				IncDec = Val_P1Press;
 			}
 			else if(((PINA & 0x01) == 0x01) && ((PINA & 0x02) == 0x02)){
-				IncDec = Val_Reset;
+				IncDec = Reset_Button;
 			}
 			else{
 				IncDec = Val_Wait;
+			}
+			break;
+		case(Reset_Button):
+			if((PINA & 0xFF) != 0x00){
+				IncDec = Reset_Button;
+			}
+			else{
+				IncDec = Val_Reset;
 			}
 			break;
 		case(Val_Reset):
@@ -127,6 +135,9 @@ void tick_LEDS()
 			else{
 				PORTC = PORTC - 1;
 			}
+			break;
+			
+		case Reset_Button:
 			break;
 			
 		case Val_Reset:
