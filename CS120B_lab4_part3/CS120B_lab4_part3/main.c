@@ -119,7 +119,7 @@ void Setter() {
 	
 	switch (State) {
 		case start:
-		PORTB = 0x01;
+		PORTB = 0x00;
 		PORTC = 0x00;
 		break;
 
@@ -140,7 +140,7 @@ void Setter() {
 		break;
 		
 		case y:
-		PORTB = 0x02;
+		PORTB = 0x01;
 		PORTC = 0x05;
 		break;
 		
@@ -158,7 +158,7 @@ void Setter() {
 		
 		case A7:
 		PORTC = 0x09;
-		PORTB = 0x01;
+		PORTB = 0x00;
 		break;
 		
 	}
@@ -167,7 +167,7 @@ void Setter() {
 int main(void)
 {
 	DDRA = 0x00; PORTA = 0xFF; // Configure port A's 8 pins as inputs
-	DDRB = 0xFF; PORTB = 0x01; // Configure port B's 8 pins as outputs,
+	DDRB = 0xFF; PORTB = 0x00; // Configure port B's 8 pins as outputs,
 	DDRC = 0xFF; PORTC = 0x00;
 	
 	State = start;
