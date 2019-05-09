@@ -129,7 +129,9 @@ void Tick_FCT(){
 		if(temp == 0x01) {
 			place = 0;
 			var = Play;
-			break;
+		}
+		else {
+			var = Init;
 		}
 		
 		case Play:
