@@ -111,24 +111,6 @@ unsigned char GetKeypadKey() {
 unsigned char stringArray[16];
 char * msg = "CS120B is Legend... wait for it DARY!";
 
-/*void arrayMover(char arrayMsg[], unsigned char index, unsigned char outputSize, unsigned char msgSize) {
-	for (unsigned char i = 0; i < outputSize; i++) {
-		stringArray[i] = 0;
-	}
-	unsigned char currentPosition = outputSize - 1;
-	if (index > outputSize) {
-		for (unsigned char i = 0; i < index; i++) {
-			stringArray[currentPosition - (index - 1 - i)] = arrayMsg[i];
-		}
-	}
-	else {
-		for (unsigned char i = 0; i < outputSize; i++) {
-			stringArray[outputSize - i - 1] = arrayMsg[index - i];
-		}
-	}
-}*/
-
-
 enum string_states {init, inputString} stringState;
 unsigned char cnt = 0; 
 
