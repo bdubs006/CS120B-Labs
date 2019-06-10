@@ -21,7 +21,7 @@ unsigned char column_val = 0x01; // pattern set on columns
 unsigned char column_sel = 0x7F; // ground column
 unsigned char mode = 1; //difficulty
 unsigned short score = 0; //global score
-unsigned long timePassed = 0; //global timer
+unsigned long gtimer = 0; //global timer
 unsigned char bell[8] = { 0x04, 0x0E, 0x0E, 0x0E, 0x1F, 0x00, 0x04, 0x00 }; //Custom character
 unsigned char downArrow[8] = {0x04, 0x04, 0x04, 0x04, 0x01F, 0x0E, 0x04, 0x00};  //Custom character 
 enum resetter{y, n}resetGame;
@@ -348,17 +348,17 @@ int SMTick3(int state) {
 	switch (state) {
 		
 		case sm3_display:   
-			if(timePassed == 16000) 
+			if(gtimer == 16000) 
 			{
-				timePassed = 0;
+				gtimer = 0;
 				state = ending; 
 			}
 			break;
 		case ending:
-			if(timePassed == 5000) //display menu for 5 seconds. 
+			if(gtimer == 5000) //display menu for 5 seconds. 
 			{
 				gEnd = nDone;
-				timePassed = 0;
+				gtimer = 0;
 				state = reset;
 			}
 			else 
@@ -396,16 +396,16 @@ int SMTick3(int state) {
 			}
 			if(sent == yes)
 			{
-				timePassed += 1;
+				gtimer += 1;
 				scroll += 1;
 		
 				if(pattern1[0] == 0x00) //pattern changes as time progresses
 				{
-					if(timePassed < 5000) {
+					if(gtimer < 5000) {
 						pattern1[0] = 0x03;
 						pattern1[1] = c5;
 					}
-					else if(timePassed > 5000 && timePassed < 10000) {
+					else if(gtimer > 5000 && gtimer < 10000) {
 						pattern1[0] = 0x03;
 						pattern1[1] = c10;
 					}
@@ -418,11 +418,11 @@ int SMTick3(int state) {
 				
 				else if(pattern4[0] == 0x00) //pattern changes as time progresses
 				{
-					if(timePassed < 5000) {
+					if(gtimer < 5000) {
 						pattern4[0] = 0x03;
 						pattern4[1] = c4;
 					}
-					else if(timePassed > 5000 && timePassed < 10000) {
+					else if(gtimer > 5000 && gtimer < 10000) {
 						pattern4[0] = 0x03;
 						pattern4[1] = c6;
 					}
@@ -548,7 +548,7 @@ int SMTick3(int state) {
 	
 		break;
 		case ending:
-			timePassed += 1;
+			gtimer += 1;
 			if(gEnd == nDone) //display score
 			{
 				gEnd = done;
