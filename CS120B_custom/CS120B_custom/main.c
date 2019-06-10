@@ -15,8 +15,8 @@
 #include "io.c"    //LCD fcts
 #include <stdio.h>
 
-static unsigned char pattern = 0x80; // LED pattern - 0: LED off; 1: LED on
-static unsigned long row = 0xFE; // Row(s) displaying pattern.
+static unsigned char pattern = 0x80; // LED dot
+static unsigned long row = 0xFE; // Row to display pattern.
 unsigned char column_val = 0x01; // pattern set on columns
 unsigned char column_sel = 0x7F; // ground column
 unsigned char mode = 1; //difficulty
@@ -24,7 +24,7 @@ unsigned short score = 0; //global score
 unsigned long timePassed = 0; //global timer
 unsigned char bell[8] = { 0x04, 0x0E, 0x0E, 0x0E, 0x1F, 0x00, 0x04, 0x00 }; //Custom character
 unsigned char downArrow[8] = {0x04, 0x04, 0x04, 0x04, 0x01F, 0x0E, 0x04, 0x00};  //Custom character 
-enum GameReset{y, n}resetGame;
+enum resetter{y, n}resetGame;
 	
 unsigned char c4 = 0x3F;	//pattern combinations within range of LED matrix
 unsigned char c3 = 0xCF;
@@ -97,8 +97,12 @@ void LCD_Goto(char x, char y)
 	char addr;
 	switch(y)
 	{
-		case 0: addr = 0x00 + x; break; //top row addr
-		case 1: addr = 0x40 + x; break; //bot row add
+		case 0:					//top row addr
+			addr = 0x00 + x; 
+			break; 
+		case 1:					//bot row addr
+			addr = 0x40 + x; 
+			break; 
 	}
 	char addcmd = (0x80|addr);
 	LCD_WriteCommand(addcmd);
@@ -125,7 +129,8 @@ int SMTick1(int state) {
 	// Local Variables
 	static unsigned short sensorVal;
 	sensorVal = ADC;	//joystick
-	//State machine transitions
+	
+	// Transitions
 	switch (state)
 	{
 		case r1:
@@ -233,7 +238,10 @@ int SMTick1(int state) {
 	return state;
 }
 
+
 enum Demo_States {init, shiftL, waitL} LEDstate;
+	
+//fct that uses joystick to move LED dot 
 void Demo_Tick() {
 	// Local Variables
 	
@@ -253,11 +261,11 @@ void Demo_Tick() {
 			LEDstate = waitL;
 		}
 		else {
-		LEDstate = init;
-		if(!GetBit(PORTD, 1))
-		row = 0xEF;
-		if(!GetBit(PORTD, 0))
-		row = 0xFE;
+			LEDstate = init;
+			if(!GetBit(PORTD, 1))
+			row = 0xEF;
+			if(!GetBit(PORTD, 0))
+			row = 0xFE;
 		}
 		break;
 		
@@ -301,7 +309,7 @@ void Demo_Tick() {
 			}
 		}
 		break;
-		/*case shiftL:
+		/*case shiftL:		//code to test LED movement, obtained online for reference
 		if (row == 0xEF && pattern == 0x80) { // Reset demo
 			pattern = 0x80;
 			row = 0xFE;
@@ -318,17 +326,15 @@ void Demo_Tick() {
 	transmit_dataPORTD(pattern); //Use the shift registers to display onto the matrix
 	transmit_dataPORTB(row); //Use the shift registers to display onto the matrix
 
-}enum SM3_States {sm3_display, done, reset};
-enum Reset{finished, notFinished}endGame;
+}enum SM3_States {sm3_display, ending, reset};
+enum Reset{done, nDone}gEnd;
 	
 //fct to reset game and display blocks falling
 int SMTick3(int state) {
 	// === Local Variables ===
 	
-	static unsigned short sensorVal2;
-	
+	static unsigned short sensor2;
 	static unsigned char resetVal = 2;
-	
 	static unsigned char1;
 	static unsigned char2;
 	static unsigned char3;
@@ -337,7 +343,7 @@ int SMTick3(int state) {
 	static unsigned short scroll = 0;
 	static unsigned char pattern1[2] = {0x03, 0xCC};
 	static unsigned char pattern4[2] = {0xC0, 0x33};
-	unsigned short check;
+	unsigned short speed;
 	// === Transitions ===
 	switch (state) {
 		
@@ -345,19 +351,19 @@ int SMTick3(int state) {
 			if(timePassed == 16000) 
 			{
 				timePassed = 0;
-				state = done; 
+				state = ending; 
 			}
 			break;
-		case done:
+		case ending:
 			if(timePassed == 5000) //display menu for 5 seconds. 
 			{
-				endGame = notFinished;
+				gEnd = nDone;
 				timePassed = 0;
 				state = reset;
 			}
 			else 
 			{
-				state = done;
+				state = ending;
 			}
 		case reset: 
 			if(resetGame == y)
@@ -378,15 +384,15 @@ int SMTick3(int state) {
 			
 			if(mode == 1) // scrolling speed
 			{
-				check = 500;
+				speed = 500;
 			}	
 			else if(mode == 2)
 			{
-				check = 400;
+				speed = 400;
 			}
 			else if(mode == 3)
 			{
-				check = 150;
+				speed = 150;
 			}
 			if(sent == yes)
 			{
@@ -425,7 +431,7 @@ int SMTick3(int state) {
 					pattern4[1] = c2; //10 5
 					}
 				}
-				if(scroll == check) //lights scrolling
+				if(scroll == speed) //lights scrolling
 				{
 					pattern1[0] = pattern1[0] << 1;
 					pattern4[0] = pattern4[0] << 1;
@@ -541,11 +547,11 @@ int SMTick3(int state) {
 			}
 	
 		break;
-		case done:
+		case ending:
 			timePassed += 1;
-			if(endGame == notFinished) //display score
+			if(gEnd == nDone) //display score
 			{
-				endGame = finished;
+				gEnd = done;
 				char1 = score / 10000;
 				if(char1 > 0)
 				{
@@ -763,10 +769,10 @@ int SMTick3(int state) {
 				break;
 			}
 		case reset:
-			if(endGame == notFinished) 
+			if(gEnd == nDone) 
 			{
 				ADC_init();
-				endGame = finished; 
+				gEnd = done; 
 				LCD_ClearScreen();
 				LCD_DisplayString(23, "Reset");
 				LCD_Custom_Char(0, downArrow);
@@ -782,26 +788,26 @@ int SMTick3(int state) {
 				LCD_Goto(2,1);
 				LCD_WriteData('N');
 			}
-			sensorVal2 = ADC;
-			if(sensorVal2 < 536) //go to no reset
+			sensor2 = ADC;
+			if(sensor2 < 536) //go to no reset
 			{
 				LCD_Goto(2,1);
 				resetVal = 0;
 				
 			}
-			else if(sensorVal2 > 540) //go to "yes" reset
+			else if(sensor2 > 540) //go to "yes" reset
 			{
 				LCD_Goto(0,1);
 				resetVal = 1;
 			}
 			else if((~PINA & 0x3C) != 0x00)
 			{
-				while((~PINA & 0x3C) != 0x00)
+				while((~PINA & 0x3C) != 0x00)					//check
 				{}
 				if(resetVal == 1)
 				{
 					resetGame = y;
-					endGame = notFinished;
+					gEnd = nDone;
 					sent = no; 
 					LCD_ClearScreen();
 					LCD_DisplayString(26, "Mode");
@@ -896,7 +902,6 @@ int main()
 	task3.elapsedTime = SMTick3_period;//Task current elapsed time.
 	task3.TickFct = &SMTick3;//Function pointer for the tick.
 
-	// Set the timer and turn it on
 	TimerSet(GCD);
 	TimerOn();
 	
